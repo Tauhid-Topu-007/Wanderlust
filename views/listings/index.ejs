@@ -125,13 +125,12 @@
   <% } %>
 </div>
 
-
 <script>
   let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-  taxSwitch.addEventListener('click',()=>{
-    let taxInfo=document.getElementsByClassName('tax-info');
-    for(info of taxInfo){
-      info.style.display=taxSwitch.checked?'inline':'none';
+  taxSwitch.addEventListener("click", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for (info of taxInfo) {
+      info.style.display = taxSwitch.checked ? "inline" : "none";
     }
-  })
+  });
 </script>
