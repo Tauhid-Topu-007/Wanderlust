@@ -1,4 +1,4 @@
-const Listing = require("../models/Listing.js");
+const Listing = require("../models/listing.js");
 module.exports.index = async (req, res) => {
   const allListings = await Listing.find({});
   res.render("listings/index.ejs", { allListings });
@@ -44,11 +44,10 @@ module.exports.renderEditForm = async (req, res) => {
     res.redirect("/listings");
   }
 
+  let originalImageUrl = listing.image.url;
+  originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
 
-  let originalImageUrl=listing.image.url;
-  originalImageUrl=originalImageUrl.replace('/upload','/upload/w_250');
-
-  res.render("listings/edit.ejs", { listing,originalImageUrl });
+  res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
 
 module.exports.updateListing = async (req, res) => {

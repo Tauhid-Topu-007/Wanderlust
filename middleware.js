@@ -1,25 +1,24 @@
-const Listing = require("./models/Listing");
+const Listing = require("./models/listing.js");
 const Review = require("./models/review");
-const { listingSchema,reviewSchema } = require("./schema.js");
+const { listingSchema, reviewSchema } = require("./schema.js");
 const ExpressError = require("./utils/ExpressError");
 
-module.exports.isLoggedIn=(req,res,next)=>{
-    if(!req.isAuthenticated()){
-      //store the url they are requesting
-      req.session.redirectUrl=req.originalUrl;
-        req.flash('error','You must be logged in to create a new listing!');
-       return res.redirect('/login');
-      }
-        next();
-}
-
-module.exports.saveRedirectUrl=(req,res,next)=>{
-  if(req.session.redirectUrl){
-    res.locals.redirectUrl=req.session.redirectUrl;
+module.exports.isLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    //store the url they are requesting
+    req.session.redirectUrl = req.originalUrl;
+    req.flash("error", "You must be logged in to create a new listing!");
+    return res.redirect("/login");
   }
   next();
-}
+};
 
+module.exports.saveRedirectUrl = (req, res, next) => {
+  if (req.session.redirectUrl) {
+    res.locals.redirectUrl = req.session.redirectUrl;
+  }
+  next();
+};
 
 module.exports.isOwner = async (req, res, next) => {
   let { id } = req.params;
@@ -40,9 +39,8 @@ module.exports.isOwner = async (req, res, next) => {
     return res.redirect(`/listings/${id}`);
   }
 
-  next(); 
+  next();
 };
-
 
 module.exports.validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
@@ -54,7 +52,6 @@ module.exports.validateListing = (req, res, next) => {
   }
 };
 
-
 module.exports.validateReview = (req, res, next) => {
   let { error } = reviewSchema.validate(req.body);
   if (error) {
@@ -64,8 +61,6 @@ module.exports.validateReview = (req, res, next) => {
     next();
   }
 };
-
-
 
 module.exports.isReviewAuthor = async (req, res, next) => {
   let { id, reviewId } = req.params;
@@ -86,5 +81,5 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     return res.redirect(`/listings/${id}`);
   }
 
-  next(); 
+  next();
 };
